@@ -1,35 +1,52 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import Home from './Pages/Home'
+import { createBrowserRouter, RouterProvider,Navigate } from 'react-router'
+import Login from './Pages/Login'
+import Register from './Pages/Register'
+import { useSelector } from 'react-redux'
+import type { RootState } from './store/store'
+import UserDashboard from './Pages/user/UserDashboard'
 
 function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+  const { isAuthenticated, user } = useSelector(
+    (state: RootState) => state.authSlice
   )
+  
+  const router =createBrowserRouter([
+    {
+    path:"/" ,
+    element:<Home/>
+    },
+    {
+      path:"/login",
+      element:<Login/>
+    },
+    {
+      path:"/register",
+      element:<Register/>
+    },
+
+    {
+      path: '/dashboard',
+      element: isAuthenticated ? <UserDashboard /> : <Navigate to="/login" />,
+    },
+    {
+      path: '/dashboard/my-bookings',
+      element: isAuthenticated ? <UserBookings /> : <Navigate to="/login" />,
+    },
+    {
+      path: '/dashboard/user-profile',
+      element: isAuthenticated ? <UserProfile /> : <Navigate to="/login" />,
+    },
+    {
+      path: '/payments',
+      element: isAuthenticated ? <Payments /> : <Navigate to="/login" />,
+    },
+    {
+      path: '/user/support-tickets',
+      element: isAuthenticated ? <UserSupportTickets /> : <Navigate to="/login" />,
+    },
+  ])
+  return <RouterProvider router ={router}/>
 }
 
 export default App
