@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-// import type { Feeds, Feeds } from '../../types/Types'
+import type { FeedDescriptions, Feeds } from '../../types/Types'
 import { apiDomain } from '../../apiDomain/ApiDomain'
 
 export const FeedsApi = createApi({
@@ -14,13 +14,13 @@ export const FeedsApi = createApi({
       return headers;
     }
   }),
-  tagTypes: ['feed', 'feedSpec'],
+  tagTypes: ['feed', 'feedDesc'],
   endpoints: (builder) => ({
 
     // ================= VEHICLES =================
 
     //get all feeds
-    getAllfeed: builder.query<Feeds[], void>({
+    getAllfeeds: builder.query<Feeds[], void>({
       query: () => '/feeds',
       providesTags: ['feed'],
     }),
@@ -28,9 +28,9 @@ export const FeedsApi = createApi({
 
     
     // get feed by id (DETAILS VIEW)
-    getfeedById: builder.query<Feeds, number>({
+    getfeedById: builder.query<FeedDescriptions, number>({
       query: (feed_id) => `/feeds/${feed_id}`,
-      providesTags: ["feed", "feedSpec"],
+      providesTags: ["feed", "feedDesc"],
     }),
 
 
@@ -76,32 +76,32 @@ export const FeedsApi = createApi({
 }),
 
 
-    // ================= VEHICLE SPECIFICATIONS =================
+    // ================= FEED DESCRIPTION =================
 
-    getAllFeedSpecs: builder.query<Feeds[], void>({
-      query: () => '/feedSpec',
-      providesTags: ['feedSpec'],
+    getAllFeedDescs: builder.query<FeedDescriptions[], void>({
+      query: () => '/feedDesc',
+      providesTags: ['feedDesc'],
     }),
 
-    addFeedSpec: builder.mutation<{ message: string }, Feeds>({
-      query: (newSpec) => ({
-        url: '/feedSpec',
+    addFeedDesc: builder.mutation<{ message: string }, FeedDescriptions>({
+      query: (newDesc) => ({
+        url: '/feedDesc',
         method: 'POST',
-        body: newSpec,
+        body: newDesc,
       }),
-      invalidatesTags: ['feedSpec'],
+      invalidatesTags: ['feedDesc'],
     }),
   }),
 })
 
 // ✅ Auto-generated hooks
 export const {
-  useGetAllfeedQuery,
+  useGetAllfeedsQuery,
   useGetfeedByIdQuery,
   useAddfeedMutation,
   useUpdatefeedMutation,
   useDeletefeedMutation,
 
-  useGetAllFeedSpecsQuery,
-  useAddFeedSpecMutation
+  useGetAllFeedDescsQuery,
+  useAddFeedDescMutation
 } =FeedsApi

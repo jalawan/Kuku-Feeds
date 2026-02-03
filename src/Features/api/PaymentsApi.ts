@@ -5,12 +5,12 @@ import type { RootState } from '../../store/store'
 /* ✅ PAYMENT TYPE */
 export interface Payment {
   payment_id: number
-  booking_id: number
+  booking_id:number
+  order_id: number
   amount: number
   payment_status: string
-  payment_date?: string
   payment_method: string
-  transaction_id: string
+  transaction_ref: string
   created_at: string
   updated_at: string
 }

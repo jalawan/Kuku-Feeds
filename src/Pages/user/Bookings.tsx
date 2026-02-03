@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import DashboardLayout from '../../dashboardDesign/DashboardLayout';
-import { BookingApi } from '../../features/api/BookingApi';
-import { PaymentsApi } from '../../features/api/PaymentsApi';
-import { SupportTicketApi, type SupportTicketResponse } from '../../features/api/SupportTicketApi';
+import { BookingApi } from '../../Features/api/BookingApi';
+import { PaymentsApi } from '../../Features/api/PaymentsApi';
+import { SupportTicketApi, type SupportTicketResponse } from '../../Features/api/SupportTicketApi';
 import { useSelector } from 'react-redux';
 import { skipToken } from '@reduxjs/toolkit/query';
 import type { RootState } from '../../store/store';
@@ -36,13 +36,13 @@ const UserBookings: React.FC = () => {
   const [addPayment, { isLoading: isPaying }] = PaymentsApi.useAddPaymentMutation();
   const [selectedBooking, setSelectedBooking] = useState<any | null>(null);
   const [paymentBooking, setPaymentBooking] = useState<any | null>(null);
-  const [paymentData, setPaymentData] = useState({ payment_method: '', transaction_id: '' });
+  const [paymentData, setPaymentData] = useState({ payment_method: '', transaction_ref: '' });
   const [phone, setPhone] = useState('');
 
-  const getVehicleName = (booking: any) => {
-    if (booking.vehicle?.specs) return `${booking.vehicle.specs.manufacturer} ${booking.vehicle.specs.model}`;
-    if (Array.isArray(booking.vehicle_id) && booking.vehicle_id.length > 0) return `Vehicle #${booking.vehicle_id[0]}`;
-    return 'Unknown Vehicle';
+  const getFeedName = (booking: any) => {
+    if (booking.feed?.desc) return `${booking.feed.desc.manufacturer} ${booking.feed.desc.model}`;
+    if (Array.isArray(booking.feed_id) && booking.feed_id.length > 0) return `Feed #${booking.feed_id[0]}`;
+    return 'Unknown Feed';
   };
 
 
@@ -73,7 +73,7 @@ const [cancelBooking] = BookingApi.useCancelBookingMutation();
     // Prepare request body
     const body = {
       payment_id: booking.payment.payment_id,
-      amount: booking.total_amount ?? booking.rental_rate,
+      amount: booking.total_amount ?? booking.price,
     };
 
     // Call backend refund endpoint
@@ -121,10 +121,10 @@ const [cancelBooking] = BookingApi.useCancelBookingMutation();
     try {
       await createBooking({
         user_id: user!.user_id,
-        vehicle_id: booking.vehicle_id,
-        total_amount: booking.total_amount ?? booking.rental_rate,
+        feed_id: booking.feed_id,
+        total_amount: booking.total_amount ?? booking.price,
       }).unwrap();
-      toast.success('Vehicle rebooked');
+      toast.success('Feed rebooked');
       refetchBookings();
     } catch {
       toast.error('Rebooking failed');
@@ -150,7 +150,7 @@ const [cancelBooking] = BookingApi.useCancelBookingMutation();
       return;
     }
 
-    const amount = (paymentBooking.total_amount ?? paymentBooking.rental_rate) * 100;
+    const amount = (paymentBooking.total_amount ?? paymentBooking.price) * 100;
 
     if (["Card", "M-Pesa"].includes(paymentData.payment_method)) {
       const handler = (window as any).PaystackPop.setup({
@@ -171,13 +171,13 @@ const [cancelBooking] = BookingApi.useCancelBookingMutation();
             body: JSON.stringify({
               booking_id: paymentBooking.booking_id,
               payment_method: paymentData.payment_method,
-              transaction_id: response.reference,
+              transaction_ref: response.reference,
             }),
           })
             .then(() => {
               toast.success("Payment verified and recorded");
               setPaymentBooking(null);
-              setPaymentData({ payment_method: "", transaction_id: "" });
+              setPaymentData({ payment_method: "", transaction_ref: "" });
               setPhone("");
               refetchBookings();
             })
@@ -189,7 +189,7 @@ const [cancelBooking] = BookingApi.useCancelBookingMutation();
       return;
     }
 
-    if (!paymentData.transaction_id) {
+    if (!paymentData.transaction_ref) {
       toast.error("Enter transaction ID");
       return;
     }
@@ -197,15 +197,15 @@ const [cancelBooking] = BookingApi.useCancelBookingMutation();
     try {
       await addPayment({
         booking_id: paymentBooking.booking_id,
-        amount: paymentBooking.total_amount ?? paymentBooking.rental_rate,
-        payment_status: "Paid",
+        amount: paymentBooking.total_amount ?? paymentBooking.amount,
+        payment_status: "SUCCESS",
         payment_method: paymentData.payment_method,
-        transaction_id: paymentData.transaction_id,
+        transaction_ref: paymentData.transaction_ref,
       }).unwrap();
 
       toast.success("Payment recorded successfully");
       setPaymentBooking(null);
-      setPaymentData({ payment_method: "", transaction_id: "" });
+      setPaymentData({ payment_method: "", transaction_ref: "" });
       setPhone("");
       refetchBookings();
     } catch {
@@ -237,7 +237,7 @@ const [cancelBooking] = BookingApi.useCancelBookingMutation();
           <thead className="bg-gray-50">
             <tr>
               <th className="py-3 px-4 text-left text-gray-600">ID</th>
-              <th className="py-3 px-4 text-left text-gray-600">Vehicle</th>
+              <th className="py-3 px-4 text-left text-gray-600">Feed</th>
               <th className="py-3 px-4 text-left text-gray-600">Status</th>
               <th className="py-3 px-4 text-left text-gray-600">Total</th>
               <th className="py-3 px-4 text-left text-gray-600">Date</th>
@@ -249,19 +249,19 @@ const [cancelBooking] = BookingApi.useCancelBookingMutation();
             {bookings?.map((b) => (
               <tr key={b.booking_id} className="hover:bg-gray-50 transition">
                 <td className="py-2 px-4 text-gray-700">#{b.booking_id}</td>
-                <td className="py-2 px-4 text-gray-700">{getVehicleName(b)}</td>
-                <td className="py-2 px-4">{getStatusBadge(b.booking_status)}</td>
-                <td className="py-2 px-4 text-gray-700">Ksh {b.total_amount ?? b.rental_rate}</td>
-                <td className="py-2 px-4 text-gray-700">{new Date(b.booking_date).toLocaleString()}</td>
+                <td className="py-2 px-4 text-gray-700">{getFeedName(b)}</td>
+                <td className="py-2 px-4">{getStatusBadge(b.status)}</td>
+                <td className="py-2 px-4 text-gray-700">Ksh {b.total_amount?? b.payments }</td>
+                {/* <td className="py-2 px-4 text-gray-700">{new Date(b.booking_date).toLocaleString()}</td> */}
                 <td className="py-2 px-4 flex flex-col gap-2">
                   <div className="flex gap-2">
-                    {['pending', 'Pending'].includes(b.booking_status) && (
+                    {['pending', 'Pending'].includes(b.status) && (
                       <button className="btn btn-sm bg-blue-600 text-white rounded-md" onClick={() => setPaymentBooking(b)}>Pay</button>
                     )}
-                    {b.booking_status === 'Failed' && (
+                    {b.status === 'EXPIRED' && (
                       <button className="btn btn-sm bg-green-600 text-white rounded-md" onClick={() => handleRebook(b)}>Rebook</button>
                     )}
-                   {['paid', 'Paid'].includes(b.booking_status) && (
+                   {['paid', 'Paid'].includes(b.status) && (
                           <button
                             className="btn btn-sm bg-red-600 text-white rounded-md"
                             onClick={() => handleCancelAndRefund(b)}   
@@ -273,7 +273,7 @@ const [cancelBooking] = BookingApi.useCancelBookingMutation();
                     <button className="btn btn-sm border border-gray-300 text-gray-700 rounded-md" onClick={() => setSelectedBooking(b)}>View</button>
                   </div>
 
-                  {['paid', 'Paid'].includes(b.booking_status) && (
+                  {['paid', 'Paid'].includes(b.status) && (
                     <button
                       className="btn btn-sm bg-green-700 text-white mt-1 rounded-md"
                       onClick={() => {
@@ -294,20 +294,20 @@ const [cancelBooking] = BookingApi.useCancelBookingMutation();
       {/* Booking Modal */}
       {selectedBooking && (
   <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-    <div className="bg-white p-6 rounded-xl shadow-lg w-[400px]">
+    <div className="bg-white p-6 rounded-xl shadow-lg w-100">
       <h2 className="text-xl font-semibold mb-4">Booking Details #{selectedBooking.booking_id}</h2>
 
-      {/* Vehicle Info */}
+      {/* Feed Info */}
       <p className="text-gray-700 mb-1">
-        Vehicle: {selectedBooking.vehicle?.specs?.manufacturer ?? 'Unknown'} {selectedBooking.vehicle?.specs?.model ?? ''}
+        Feed: {selectedBooking.feed?.desc?.feed_name?? 'Unknown'} {selectedBooking.feed?.desc?.feed_type ?? ''}
       </p>
       <p className="text-gray-700 mb-1">
-        Transmission: {selectedBooking.vehicle?.specs?.transmission ?? 'N/A'}
+        Description: {selectedBooking.feed?.desc?.description ?? 'N/A'}
       </p>
 
       {/* Booking Info */}
       <p className="text-gray-700 mb-1">Status: {selectedBooking.booking_status}</p>
-      <p className="text-gray-700 mb-1">Total: Ksh {selectedBooking.total_amount ?? selectedBooking.rental_rate}</p>
+      <p className="text-gray-700 mb-1">Total: Ksh {selectedBooking.total_amount ?? selectedBooking.price}</p>
       <p className="text-gray-700 mb-1">Date: {new Date(selectedBooking.booking_date).toLocaleString()}</p>
 
       {/* User Info */}
@@ -325,10 +325,10 @@ const [cancelBooking] = BookingApi.useCancelBookingMutation();
       {/* Payment Modal */}
       {paymentBooking && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl p-6 w-[400px] shadow-lg">
+          <div className="bg-white rounded-xl p-6 w-100 shadow-lg">
             <h2 className="text-lg font-semibold mb-4">Pay for Booking #{paymentBooking.booking_id}</h2>
-            <p className="mb-2 text-gray-700"><b>Vehicle:</b> {getVehicleName(paymentBooking)}</p>
-            <p className="mb-4 text-gray-700"><b>Amount:</b> Ksh {paymentBooking.total_amount ?? paymentBooking.rental_rate}</p>
+            <p className="mb-2 text-gray-700"><b>Feed:</b> {getFeedName(paymentBooking)}</p>
+            <p className="mb-4 text-gray-700"><b>Amount:</b> Ksh {paymentBooking.total_amount ?? paymentBooking.price}</p>
 
             <select
               className="select select-bordered w-full mb-3 rounded-md"
@@ -356,8 +356,8 @@ const [cancelBooking] = BookingApi.useCancelBookingMutation();
                 type="text"
                 className="input input-bordered w-full mb-4 rounded-md"
                 placeholder="Transaction ID"
-                value={paymentData.transaction_id}
-                onChange={(e) => setPaymentData({ ...paymentData, transaction_id: e.target.value })}
+                value={paymentData.transaction_ref}
+                onChange={(e) => setPaymentData({ ...paymentData, transaction_ref: e.target.value })}
               />
             )}
 

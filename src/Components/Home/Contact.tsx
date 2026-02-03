@@ -59,7 +59,7 @@ if (!formRef.current) return;
                         <input type="text" name="user_name" placeholder="Name:" className="bg-[#F5F5F5] bg-opacity-10 py-3 px-3 md:w-3/4 w-full rounded " />
                         <input type="email" name="user_email" placeholder="Email:" className="bg-[#F5F5F5] bg-opacity-10 py-3 px-3 md:w-3/4 w-full rounded my-3" />
                         <textarea name="message" id="message" cols={54} rows={4} className="bg-[#F5F5F5] bg-opacity-10 py-3 px-3 md:w-3/4 w-full rounded mb-2 " placeholder="Message:"></textarea>
-                        <button type="submit" className="btn transition-all duration-500 bg-primary py-2 px-12 rounded text-black hover:bg-white hover:text-primary block">
+                        <button type="submit" className="btn bg-primary py-2 px-12 rounded text-black hover:bg-amber-300 hover:text-primary block hover:scale-105 transition-transform duration-500">
                         Send
                         </button>
                         {done && <p className="text-green-400 mt-4">Thank you for your message! I will get in touch soon</p>}

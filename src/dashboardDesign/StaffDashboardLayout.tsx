@@ -1,8 +1,8 @@
 import React from 'react'
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
+import Navbar from '../Components/Navbar'
+import Footer from '../Components/Footer'
 import StaffSidebar from './StaffSidebar'
-import { Divide } from 'lucide-react'
+
 
 interface DashboardLayoutProps {
   children: React.ReactNode

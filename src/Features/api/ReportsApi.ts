@@ -1,4 +1,4 @@
-import React from "react";
+
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { apiDomain } from '../../apiDomain/ApiDomain';
 import type { RootState } from '../../store/store';
@@ -15,8 +15,8 @@ const ReportsApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    getMostBookedVehicles: builder.query<Bookings[], void>({
-      query: () => '/reports/vehicles',
+    getMostBookedFeeds: builder.query<Bookings[], void>({
+      query: () => '/reports/feeds',
     }),
     getMonthlyRevenue: builder.query<Bookings[], void>({
       query: () => '/reports/revenue',

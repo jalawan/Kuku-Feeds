@@ -1,6 +1,6 @@
 import React from 'react'
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
+import Navbar from '../Components/Navbar'
+import Footer from '../Components/Footer'
 import AdminSidebar from './AdminSidebar'
 
 interface DashboardLayoutProps {
@@ -12,7 +12,7 @@ const AdminDashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
 
 
     return (
-        <div className="min-h-screen bg-gray-50 mt-20">
+        <div className="min-h-screen bg-gray-50 mt-">
             {/* Top Navbar */}
             <Navbar />
 

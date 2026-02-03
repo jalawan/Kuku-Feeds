@@ -37,7 +37,7 @@ const StaffSidebar: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-black via-zinc-900 to-black shadow-sm transition-all duration-300 w-64 fixed left-0 top-23 z-40">
+    <div className="min-h-screen flex flex-col bg-linear-to-br from-black via-zinc-900 to-black shadow-sm transition-all duration-300 w-64 fixed left-0 top-23 z-40">
       
       {/* Sidebar Header */}
       <div className="p-4 border-b border-gray-200">

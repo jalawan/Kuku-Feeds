@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import type { RootState } from '../store/store'
 import { clearCredentials } from '../Features/slice/authSlice'
 
- const navbar: React.FC = () => {
+ const Navbar: React.FC = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -21,10 +21,10 @@ import { clearCredentials } from '../Features/slice/authSlice'
 
   // Role-based dashboard redirect
   const handleDashboardClick = () => {
-    if (user?.role === 'admin') {
+    if (user?.role === 'ADMIN') {
       navigate('/admin/dashboard')
-    } else if (user?.role === 'staff') {
-      navigate('/staff/dashboard')
+    // } else if (user?.role === 'staff') {
+    //   navigate('/staff/dashboard')
     } else {
       navigate('/dashboard')
     }
@@ -96,4 +96,4 @@ import { clearCredentials } from '../Features/slice/authSlice'
 </div>
   )
 }
-export default navbar;
+export default Navbar;

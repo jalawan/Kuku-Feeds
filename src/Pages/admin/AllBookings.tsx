@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import AdminDashboardLayout from '../../dashboardDesign/AdminDashboardLayout';
 import { Package } from 'lucide-react';
-import { BookingApi } from '../../features/api/BookingApi';
-import { PaymentsApi } from '../../features/api/PaymentsApi';
+import { BookingApi } from '../../Features/api/BookingApi';
+import { PaymentsApi } from '../../Features/api/PaymentsApi';
 import { toast } from 'sonner';
-import BookingDetailsModal from '../../components/BookingDetailsModal';
+import BookingDetailsModal from '../../Components/BookingDetailsModal';
 import { StatusDot } from '../../utils/statusDot';
-import { userApi } from '../../features/api/UserApi';
+import { userApi } from '../../Features/api/UserApi';
 
 const AllBookings: React.FC = () => {
   const {
@@ -81,14 +81,14 @@ const AllBookings: React.FC = () => {
                     <td>
                       <span
                         className={`badge ${
-                          booking.booking_status === 'pending'
+                          booking.status === 'PENDING'
                             ? 'badge-warning'
-                            : booking.booking_status === 'confirmed'
+                            : booking.status === 'CONFIRMED'
                             ? 'badge-success'
                             : 'badge-error'
                         }`}
                       >
-                        {booking.booking_status}
+                        {booking.status}
                       </span>
                     </td>
 
@@ -106,7 +106,7 @@ const AllBookings: React.FC = () => {
                         className="btn btn-sm btn-success"
                         disabled={
                           isUpdating ||
-                          booking.booking_status !== 'pending'
+                          booking.status !== 'PENDING'
                         }
                         onClick={async () => {
                           const payment_id =
@@ -134,8 +134,8 @@ const AllBookings: React.FC = () => {
                           }
                         }}
                       >
-                        {booking.booking_status === 'pending'
-                          ? 'Confirm'
+                        {booking.status === 'PENDING'
+                          ? 'CONFIRMED'
                           : 'Booked'}
                       </button>
 
@@ -194,7 +194,7 @@ const AllBookings: React.FC = () => {
         <BookingDetailsModal
           booking={selectedBooking}
           user={selectedBooking.user}
-          vehicle={selectedBooking.vehicle}
+          feed={selectedBooking.vehicle}
           onClose={() => setSelectedBooking(null)}
           onBanUser={async () => {
             const user_id = selectedBooking?.user?.user_id;

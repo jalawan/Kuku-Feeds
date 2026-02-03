@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import AdminDashboardLayout from "../../dashboardDesign/AdminDashboardLayout";
-import { SupportTicketApi } from "../../features/api/SupportTicketApi";
+import { SupportTicketApi } from "../../Features/api/SupportTicketApi";
 import { toast } from "sonner";
 
 const AdminSupportTickets: React.FC = () => {

@@ -10,19 +10,19 @@ import {
   ResponsiveContainer,
 } from 'recharts'
 import AdminDashboardLayout from '../../dashboardDesign/AdminDashboardLayout'
-import ReportsApi from '../../features/api/ReportsApi'
+import ReportsApi from '../../Features/api/ReportsApi'
 
 const AdminReports = () => {
-  // Fetch Most Booked Vehicles
-  const { data: vehicleBookings, isLoading: loadingVehicles } =
-    ReportsApi.useGetMostBookedVehiclesQuery()
+  // Fetch Most Booked Feeds
+  const { data: feedBookings, isLoading: loadingFeeds } =
+    ReportsApi.useGetMostBookedFeedsQuery()
 
   // Fetch Monthly Revenue
   const { data: revenueData, isLoading: loadingRevenue } =
     ReportsApi.useGetMonthlyRevenueQuery()
 
   // Provide defaults if hooks return undefined
-  const vehicles = vehicleBookings?.data?? []
+  const feeds = feedBookings?.data?? []
   const revenue = revenueData?.data ?? []
 
   return (
@@ -32,15 +32,15 @@ const AdminReports = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* MOST BOOKED VEHICLES */}
         <div className="bg-white p-6 rounded-lg shadow">
-          <h3 className="font-semibold mb-4">Most Booked Vehicles</h3>
+          <h3 className="font-semibold mb-4">Most Booked Feeds</h3>
 
-          {loadingVehicles ? (
+          {loadingFeeds ? (
             <p>Loading...</p>
-          ) : !vehicles.length ? (
-            <p>No vehicle bookings yet</p>
+          ) : !feeds.length ? (
+            <p>No feed bookings yet</p>
           ) : (
             <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={vehicles.slice(0, 5)}>
+              <BarChart data={feeds.slice(0, 5)}>
                 <XAxis dataKey="name" />
                 <YAxis />
                 <Tooltip />

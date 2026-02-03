@@ -11,9 +11,9 @@ import type { Feeds } from '../../types/Types'
 
 const AllFeeds: React.FC = () => {
     // Hooks at the top level
-    const { data: vehicles, isLoading, error } = FeedsApi.useGetAllvehicleQuery();
-    const [updateFeeds, { isLoading: isUpdatingFeeds }] = FeedsApi.useUpdatevehicleMutation();
-    const [deletevehicle, { isLoading: isDeletingFeeds }] = FeedsApi.useDeletevehicleMutation();
+    const { data: feeds, isLoading, error } = FeedsApi.useGetAllfeedsQuery();
+    const [updateFeeds, { isLoading: isUpdatingFeeds }] = FeedsApi.useUpdatefeedMutation();
+    const [deletefeed, { isLoading: isDeletingFeeds }] = FeedsApi.useDeletefeedMutation();
 
     return (
         <AdminDashboardLayout>
@@ -38,78 +38,79 @@ const AllFeeds: React.FC = () => {
 
                 {error && (
                     <div className="text-center py-8 text-red-600">
-                        <p>Error loading vehicles.</p>
+                        <p>Error loading feeds.</p>
                         <pre className="text-xs mt-2">{JSON.stringify((error as any)?.data || error, null, 2)}</pre>
                     </div>
                 )}
 
-                {!isLoading && !error && (!vehicles || vehicles.length === 0) && (
-                    <div className="text-center py-8 text-gray-500">No vehicles found.</div>
+                {!isLoading && !error && (!feeds || feeds.length === 0) && (
+                    <div className="text-center py-8 text-gray-500">No feeds found.</div>
                 )}
 
-                {!isLoading && !error && vehicles && vehicles.length > 0 && (
+                {!isLoading && !error && feeds && feeds.length > 0 && (
                     <div className="overflow-x-auto">
                         <table className="table  w-full">
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>vehicle_spec_id</th>
-                                    <th>rental_rate</th>
-                                    <th>availability</th>
+                                    <th>feed_desc_id</th>
+                                    <th>price</th>
+                                    <th>stock</th>
+                                    <th>is active</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {vehicles.map((item: Feeds, idx: number) => (
-                                    <tr key={item.vehicle_id}>
+                                {feeds.map((item: Feeds, idx: number) => (
+                                    <tr key={item.feed_id}>
                                         <th>{idx + 1}</th>
-                                        <td>{item.vehicle_spec_id}</td>
-                                        <td className="truncate max-w-xs">{item.rental_rate}</td>
+                                        <td>{item.feed_desc_id}</td>
+                                        <td className="truncate max-w-xs">{item.price}</td>
                                         <td>
                                         <span
                                             className={`badge ${
-                                            item.availability ? "badge-success" : "badge-error"
+                                            item.is_active ? "badge-success" : "badge-error"
                                             }`}
                                         >
-                                            {item.availability ? "Available" : "Unavailable"}
+                                            {item.is_active ? "Available" : "Unavailable"}
                                         </span>
                                         </td>
 
                                         <td className="flex gap-2">
                                             <button
-                                            className={`btn btn-sm ${item.availability ? "btn-error" : "btn-success"}`}
+                                            className={`btn btn-sm ${item.is_active ? "btn-error" : "btn-success"}`}
                                             disabled={isUpdatingFeeds}
                                             onClick={async () => {
                                                 try {
                                                 await updateFeeds({
-                                                    vehicle_id: item.vehicle_id,
-                                                    vehicle_spec_id: item.vehicle_spec_id,
-                                                    availability: !item.availability, 
+                                                    feed_id: item.feed_id,
+                                                    feed_desc_id: item.feed_desc_id,
+                                                    is_active: !item.is_active, 
                                                 }).unwrap();
 
                                                 toast.success(
-                                                    item.availability
+                                                    item.is_active
                                                     ? "Feeds marked as UNAVAILABLE"
                                                     : "Feeds marked as AVAILABLE"
                                                 );
                                                 } catch (err: any) {
                                                 console.error(err);
-                                                toast.error("Failed to update vehicle");
+                                                toast.error("Failed to update feed");
                                                 }
                                             }}
                                             >
-                                            {item.availability ? "Make Unavailable" : "Make Available"}
+                                            {item.is_active ? "Make Unavailable" : "Make Available"}
                                             </button>
 
                                            {/*Inside your delete button click handler*/}
                                             <button
                                             className="btn btn-sm btn-error"
                                             onClick={async () => {
-                                                if (!confirm("Are you sure you want to delete this vehicle?")) return;
+                                                if (!confirm("Are you sure you want to delete this feed?")) return;
 
                                                 try {
-                                                // Pass the vehicle_id directly
-                                                const response: any = await deletevehicle(item.vehicle_id).unwrap();
+                                                // Pass the feed_id directly
+                                                const response: any = await deletefeed(item.feed_id).unwrap();
 
                                                 // Show success toast
                                                 toast.success(response.message || "🗑️ Feeds deleted successfully");
@@ -119,9 +120,9 @@ const AllFeeds: React.FC = () => {
 
                                                 // Friendly message for foreign key constraint
                                                 if (err?.data?.message?.includes("REFERENCE constraint")) {
-                                                    toast.error("❌ Cannot delete vehicle: existing bookings found");
+                                                    toast.error("❌ Cannot delete feed: existing bookings found");
                                                 } else {
-                                                    toast.error(err?.data?.message || "❌ Failed to delete vehicle");
+                                                    toast.error(err?.data?.message || "❌ Failed to delete feed");
                                                 }
                                                 }
                                             }}

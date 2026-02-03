@@ -1,4 +1,4 @@
-import { BarChart, Car, Clipboard, NotebookIcon, ShoppingCart, StoreIcon, Ticket, Users } from 'lucide-react'
+import { BarChart, Clipboard, Dessert,  NotebookIcon, ShoppingCart, Ticket, Users } from 'lucide-react'
 import React from 'react'
 import { Link, useLocation } from 'react-router'
 
@@ -14,30 +14,19 @@ const AdminSidebar: React.FC = () => {
             icon: <BarChart  />
         },
         {
+            name: 'All Users',
+            path: '/admin/dashboard/all-customers',
+            icon: <Users  />
+        },
+        {
             name: 'All Bookings',
             path: '/admin/dashboard/all-bookings',
             icon: <ShoppingCart  />
         },
         {
-            name: 'Add Vehicles',
-            path: '/admin/vehicles',
-            icon: <Car  />,
-        },
-        {
-            name: 'All Users',
-            path: '/admin/dashboard/all-customers',
-            icon: <Users  />
-        },
-    
-        {
-            name: 'Add VehicleSpec',
-            path: '/admin/VehicleSpec',
-            icon: <Car />
-        },
-        {
-            name: 'All My Vehicles',
-            path: '/admin/dashboard/vehicles',
-            icon: < Car />
+            name: 'All My Feeds',
+            path: '/admin/dashboard/feeds',
+            icon: < Dessert/>
         },
         {
             name: 'All Payments',
@@ -48,6 +37,17 @@ const AdminSidebar: React.FC = () => {
             name: 'All Support Tickets',
             path: '/admin/support-tickets',
             icon: < Ticket/>
+        },
+        {
+            name: 'Add Feeds',
+            path: '/admin/feeds',
+            icon: <Clipboard/>,
+        },
+    
+        {
+            name: 'Add FeedDescription',
+            path: '/admin/FeedDesc',
+            icon: <Clipboard/>
         },
         
     ]

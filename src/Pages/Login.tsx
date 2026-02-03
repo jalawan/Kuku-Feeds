@@ -4,9 +4,10 @@ import { Link ,useNavigate } from 'react-router';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import {  toast,Toaster } from 'sonner';
 import { AuthApi } from '../Features/api/AuthApi';
-import { EyeClosedIcon } from 'lucide-react';
+import { EyeClosedIcon, MoveLeft } from 'lucide-react';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../Features/slice/authSlice';
+
 
 type LoginFormValues = {
   email: string;
@@ -35,10 +36,10 @@ const Login:React.FC = () => {
         } 
       }));
 
-       if (response.user.role=== "admin") {
+       if (response.user.role=== "ADMIN") {
           navigate('/admin/dashboard');
-        } else if (response.user.role === "staff") {
-          navigate('/staff/dashboard');
+        // } else if (response.user.role === "staff") {
+        //   navigate('/staff/dashboard');
         } else {    
           navigate('/dashboard'); 
         }
@@ -51,6 +52,11 @@ const Login:React.FC = () => {
         <Toaster position='top-right' richColors/>
         <div className='justify-center px-10  md:flex my-7 rounded-3xl bg-white/5 backdrop-blur-2xl border border-white/10 shadow-[0_20px_80px_rgba(0,0,0,0.6)]'>
             <div className='flex '>
+                <div>
+                    <button className='p-6  rounded-3xl hover:from-white hover:to-amber-300'>
+                        <Link to="/"> <MoveLeft/> </Link>
+                    </button>
+                </div>
                 {/* Left Image */}
                 <div className="hidden lg:flex flex-col items-center justify-center bg-amber-50 text-white p-14">
                     <img src={image} alt="Log In Image" />

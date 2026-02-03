@@ -18,6 +18,7 @@ const Home:React.FC = () => {
         </div>
         <Footer/>
     </div>
+    
   )
 }
 export default Home

@@ -2,8 +2,8 @@ import React from 'react'
 import AdminDashboardLayout from '../../dashboardDesign/AdminDashboardLayout'
 import { useNavigate } from 'react-router'
 import { Clipboard, DollarSign, ShoppingCart, Users, PlusCircle, BarChart3, Settings, CarFront } from 'lucide-react'
-import { dashboardDataApi } from '../../features/api/DashboardDataApi'
-import { BookingApi } from '../../features/api/BookingApi'
+import { dashboardDataApi } from '../../Features/api/DashboardDataApi'
+import { BookingApi } from '../../Features/api/BookingApi'
 
 const AdminDashboard: React.FC = () => {
   const { data: dashboardData, isLoading } = dashboardDataApi.useGetAdminDashboardDataQuery()
@@ -37,7 +37,7 @@ const AdminDashboard: React.FC = () => {
           Lemcee Luxury Fleet
         </h1>
         <p className="text-amber-400 mt-2 text-sm tracking-widest uppercase">
-          Premium Vehicle Management System
+          Premium Feed Management System
         </p>
       </div>
 
@@ -65,8 +65,14 @@ const AdminDashboard: React.FC = () => {
             gradient: 'from-sky-500 to-sky-700',
           },
           {
-            title: 'Vehicles',
-            value: dashboardData?.totalVehicles,
+            title: 'Feeds',
+            value: dashboardData?.totalFeeds,
+            icon: <CarFront size={26} />,
+            gradient: 'from-violet-500 to-violet-700',
+          },
+          {
+            title: 'Stock',
+            value: dashboardData?.totalStock,
             icon: <CarFront size={26} />,
             gradient: 'from-violet-500 to-violet-700',
           },
@@ -178,10 +184,10 @@ const AdminDashboard: React.FC = () => {
 
           <div className="grid grid-cols-1 gap-4">
             <button
-              onClick={() => navigate('/admin/vehicles/add')}
+              onClick={() => navigate('/admin/feeds/add')}
               className="flex items-center gap-3 p-4 rounded-xl bg-linear-to-r from-emerald-500 to-emerald-700 text-black font-semibold hover:opacity-90"
             >
-              <PlusCircle /> Add Vehicle
+              <PlusCircle /> Add Feed
             </button>
 
             <button

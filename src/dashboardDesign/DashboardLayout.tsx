@@ -1,7 +1,7 @@
 import React from 'react'
-import Navbar from '../components/Navbar'
+import Navbar from '../Components/Navbar'
 import Sidebar from './Sidebar'
-import Footer from '../components/Footer'
+import Footer from '../Components/Footer'
 
 interface DashboardLayoutProps {
     children: React.ReactNode

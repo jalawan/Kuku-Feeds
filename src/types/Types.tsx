@@ -16,6 +16,15 @@ export interface User{
     created_at:string;
     
 }
+
+export interface Feeds{
+    feed_id :number;
+    feed_desc_id:number;
+    price :number;
+    stock :number;
+    is_active :Boolean;
+    created_at :string;
+}
 export interface RecentBookings{
     user_id:number;
     vehicle_id:number;
@@ -30,14 +39,13 @@ export interface RecentBookings{
 export interface Bookings{
     booking_id :number;
     user_id :number;
-    vehicle_id :number;
-    location_id:number;
-    booking_date:string;
-    return_date :string;
-    rental_rate:number;
-    total_amount :number;
-    booking_status :'pending' | 'paid' | 'Failed'|'confirmed' ;
+    feed_id :number;
+    quantity:number;
+    status :'PENDING' | 'CONFIRMED' | 'EXPIRED'|'CANCELLED' ;
+    total_amount:number;
     created_at:number,
+    expires_at:number;
+    feeds?:Feeds[];
     payments?:Payments [];
 }
 export interface Payments {
@@ -45,28 +53,41 @@ export interface Payments {
   booking_id: number;
   amount: number;
   payment_status: string;
-  payment_date: string;
   payment_method: string;
-  transaction_id: string;
+  transaction_ref: string;
   created_at: string;
   updated_at: string;
+}
+
+export interface FeedDescriptions{
+    feedDesc_id:number;
+    feed_id:number;
+    price:number;
+    stock:number;
+    feed_name :string;
+    feed_type :string;
+    description:string;
+    quantity:number;
+    is_active:boolean;
+    imageURL:string;
 }
 export interface DashboardStats {
     totalBookings: number;
     totalRevenue: number;
     totalUsers: number;
-    totalVehicles: number;
+    totalFeeds: number;
 }
 export interface AdminDashboardStats {
     totalBookings: number;
     totalRevenue: number;
     totalUsers: number;
-    totalVehicles: number;
+    totalFeeds: number;
+    totalStock:number;
 }
 
 export interface UserStats {
     totalBookings: number;
-    favoriteVehicles: number;
+    favoriteFeeds: number;
     totalSpent: number;
     loyaltyPoints: number;
 }

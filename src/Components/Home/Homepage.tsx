@@ -2,6 +2,8 @@ import React from 'react'
 import feedinghens  from '../../assets/feeding hens.webp'
 import chicks  from '../../assets/chicks.jpg'
 import layerhens  from '../../assets/Layer-Hens.jpg'
+import { ArrowBigUp } from 'lucide-react'
+
 
 const Homepage:React.FC = () => {
   return (
@@ -15,30 +17,33 @@ const Homepage:React.FC = () => {
             </div>
         </div>
         <div className="mt-10 flex gap-6 justify-center flex-wrap">
-  <div className="w-80 h-64">
-    <img
-      src={feedinghens}
-      alt="homepage image"
-      className="w-full h-full object-cover rounded-3xl hover:scale-105 transition-transform duration-300"
-    />
-  </div>
+        <div className="w-80 h-64">
+          <img
+            src={feedinghens}
+            alt="homepage image"
+            className="w-full h-full object-cover rounded-3xl hover:scale-105 transition-transform duration-300"
+          />
+        </div>
 
-  <div className="w-80 h-64">
-    <img
-      src={chicks}
-      alt="chicks image"
-      className="w-full h-full object-cover rounded-3xl hover:scale-105 transition-transform duration-300"
-    />
-  </div>
+        <div className="w-80 h-64">
+          <img
+            src={chicks}
+            alt="chicks image"
+            className="w-full h-full object-cover rounded-3xl hover:scale-105 transition-transform duration-300"
+          />
+        </div>
 
-  <div className="w-80 h-64">
-    <img
-      src={layerhens}
-      alt="hens image"
-      className="w-full h-full object-cover rounded-3xl hover:scale-105 transition-transform duration-300"
-    />
-  </div>
-</div>
+        <div className="w-80 h-64">
+          <img
+            src={layerhens}
+            alt="hens image"
+            className="w-full h-full object-cover rounded-3xl hover:scale-105 transition-transform duration-300"
+          />
+        </div>
+      </div>
+      <div className='fab'>
+        <button className='btn btn-circle hover:bg-amber-300 hover:scale-105 transition-transform duration-500'><a href="#home"><ArrowBigUp/></a></button>
+      </div>
     </div>
   )
 }

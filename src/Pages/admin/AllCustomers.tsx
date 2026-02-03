@@ -1,7 +1,7 @@
 import React from 'react'
 import AdminDashboardLayout from '../../dashboardDesign/AdminDashboardLayout'
 import { Users } from 'lucide-react'
-import { userApi } from '../../features/api/UserApi'
+import { userApi } from '../../Features/api/UserApi'
 import { toast } from 'sonner'
 
 const AllCustomers: React.FC = () => {
