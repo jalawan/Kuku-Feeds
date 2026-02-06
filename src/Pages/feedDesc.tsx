@@ -61,7 +61,7 @@ const f = feed;
         {/* ✅ BACK BUTTON */}
         <button
           onClick={handleBack}
-          className="mb-6 flex items-center gap-2 text-sm font-semibold text--700 hover:text-white transition"
+          className="mb-6 flex items-center gap-2 text-sm font-semibold text--700 transition"
         >
           ← Back to Feeds
         </button>

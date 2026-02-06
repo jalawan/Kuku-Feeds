@@ -29,7 +29,7 @@ export const FeedsApi = createApi({
     
     // get feed by id (DETAILS VIEW)
     getfeedById: builder.query<FeedDescriptions, number>({
-      query: (feed_id) => `/feeds/${feed_id}`,
+      query: (feed_id) => `/feedDesc/${feed_id}`,
       providesTags: ["feed", "feedDesc"],
     }),
 

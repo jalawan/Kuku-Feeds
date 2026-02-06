@@ -69,7 +69,7 @@ const UserDashboard: React.FC = () => {
     return (
         <DashboardLayout>
             {/* Welcome Header */}
-            <div className="mb-8 mt-17 ml-">
+            <div className="mb-8 mt-17 md: ">
                 <div className="bg-linear-to-r from-green-800 to-yellow-700 rounded-lg p-6 text-white">
                     <h1 className="text-3xl font-bold">Welcome back, Valued Customer! 👋</h1>
                     <p className="mt-2 text-green-100">Drive with us <WavesIcon/> </p>
@@ -164,11 +164,11 @@ const UserDashboard: React.FC = () => {
                             <div key={booking.user_id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-200">
                                 <div className="flex items-center justify-between">
                                     <div className="flex-1">
-                                        <h3 className="font-semibold text-gray-900">{booking.vehicle_id}</h3>
+                                        <h3 className="font-semibold text-gray-900">{booking.feed_id}</h3>
                                         <p className="text-sm text-gray-600"> •{booking.booking_date.toLocaleDateString()}</p>
                                         <div className="flex items-center mt-2">
-                                            <span className={`badge ${getStatusColor(booking.booking_status)} text-white mr-3`}>
-                                                {booking.booking_status}
+                                            <span className={`badge ${getStatusColor(booking.status)} text-white mr-3`}>
+                                                {booking.status}
                                             </span>
                                             {booking.rating > 0 && (
                                                 <div className="flex items-center">
@@ -179,7 +179,7 @@ const UserDashboard: React.FC = () => {
                                     </div>
                                     <div className="text-right">
                                         <p className="font-bold text-green-700">${booking.total_amount}</p>
-                                        {booking.booking_status === 'Delivered' && booking.rating === 0 && (
+                                        {booking.status === 'Delivered' && booking.rating === 0 && (
                                             <button className="btn btn-xs bg-yellow-500 hover:bg-yellow-600 text-white mt-2">
                                                 Rate Booking
                                             </button>

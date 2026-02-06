@@ -4,6 +4,7 @@ import Login from './Pages/Login'
 import Register from './Pages/Register'
 import { useSelector } from 'react-redux'
 import type { RootState } from './store/store'
+import Booking from './Pages/user/Bookings'
 import UserDashboard from './Pages/user/UserDashboard'
 import AdminDashboard from './Pages/admin/AdminDasboard'
 import AllBookings from './Pages/admin/AllBookings'
@@ -18,7 +19,8 @@ import AdminReports from './Pages/admin/AdminReports'
 import AdminSettings from './Pages/admin/AddSettings'
 import AddFeedDescription from './Pages/admin/AddDescription'
 import AdminSupportTickets from './Pages/admin/AllSupportTickets'
-import Feeds from './Components/Home/Feeds'
+import Feeds from './Pages/Feeds'
+import FeedDescription from './Pages/feedDesc'
 
 function App() {
   const { isAuthenticated, user } = useSelector(
@@ -43,8 +45,12 @@ function App() {
       element:<Feeds/>
     },
      {
-      path:"/feeds",
-      element:<Feeds/>
+      path:"/feedDesc/:feed_id",
+      element:<FeedDescription/>
+    },
+    {
+      path:"/booking",
+      element:<Booking/>
     },
 // USER DASHBOARD
     {

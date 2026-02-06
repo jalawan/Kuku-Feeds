@@ -56,7 +56,7 @@ import { clearCredentials } from '../Features/slice/authSlice'
     <ul className="menu menu-horizontal px-1 text-shadow-red-500">
       <li><a href='#Home'>Home</a></li>
       <li><a href='#about'>About</a></li>
-      <li><a href='#feeds'>Feeds</a></li>
+      <Link to="/feeds"><li><a href='#feeds'>Feeds</a></li></Link>
       <li><a href='#contact'>Contact</a></li>
       
       {isAuthenticated && (

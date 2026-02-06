@@ -14,13 +14,13 @@ const AdminDashboard: React.FC = () => {
 
  const getStatusColor = (status: string) => {
   switch (status.toLowerCase()) {
-    case 'paid':
+    case 'CONFIRMED':
       return 'bg-yellow-400 text-black';   // ✅ YELLOW for Paid
-    case 'confirmed':
+    case 'CANCELLED':
       return 'bg-emerald-500';
-    case 'Failed':
+    case 'EXPIRED':
       return 'bg-amber-500';
-    case 'pending':
+    case 'PENDING':
       return 'bg-cyan-500';
     default:
       return 'bg-zinc-600';
@@ -30,11 +30,11 @@ const AdminDashboard: React.FC = () => {
   return (
     <AdminDashboardLayout>
       {/* ========= LUXURY HEADER ========= */}
-      <div className="relative mb-10 overflow-hidden rounded-2xl bg-linear-to-r from-black via-zinc-900 to-black p-8 shadow-2xl border border-zinc-800">
+      <div className="relative mb-10 overflow-hidden rounded-2xl bg-linear-to-r from-red-900  to-red-900 p-8 shadow-2xl border border-zinc-800 text-center">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,#facc15_0%,transparent_40%)] opacity-20" />
 
         <h1 className="text-4xl font-extrabold text-white tracking-wide">
-          Lemcee Luxury Fleet
+          Trinity Feeds
         </h1>
         <p className="text-amber-400 mt-2 text-sm tracking-widest uppercase">
           Premium Feed Management System
@@ -74,7 +74,7 @@ const AdminDashboard: React.FC = () => {
             title: 'Stock',
             value: dashboardData?.totalStock,
             icon: <CarFront size={26} />,
-            gradient: 'from-violet-500 to-violet-700',
+            gradient: 'from-amber-500 to-amber-700',
           },
         ].map((card, idx) => (
           <div
@@ -159,10 +159,10 @@ const AdminDashboard: React.FC = () => {
                       <td className="py-4">
                         <span
                           className={`px-3 py-1 text-xs rounded-full text-white ${getStatusColor(
-                            b.booking_status
+                            b.status
                           )}`}
                         >
-                          {b.booking_status}
+                          {b.status}
                         </span>
                       </td>
                       <td className="py-4 text-zinc-400 text-xs">

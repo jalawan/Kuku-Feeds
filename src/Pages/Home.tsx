@@ -4,7 +4,7 @@ import Footer from '../Components/Footer'
 import Homepage from '../Components/Home/Homepage'
 import About from '../Components/Home/About'
 import Contact from '../Components/Home/Contact'
-import Feeds from '../Components/Home/Feeds'
+import Feeds from '../Pages/Feeds'
 
 const Home:React.FC = () => {
   return (

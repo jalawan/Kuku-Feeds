@@ -30,7 +30,7 @@ const AdminReports = () => {
       <h1 className="text-2xl font-bold mb-6">Company Performance Reports</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* MOST BOOKED VEHICLES */}
+        {/* MOST BOOKED FEEDS */}
         <div className="bg-white p-6 rounded-lg shadow">
           <h3 className="font-semibold mb-4">Most Booked Feeds</h3>
 

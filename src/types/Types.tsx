@@ -27,11 +27,11 @@ export interface Feeds{
 }
 export interface RecentBookings{
     user_id:number;
-    vehicle_id:number;
+    feed_id:number;
     booking_date:Date;
     return_date:Date;
     total_amount:number;
-    booking_status :string;
+    status :string;
     rating:number;
     created_at:number
     
@@ -45,8 +45,9 @@ export interface Bookings{
     total_amount:number;
     created_at:number,
     expires_at:number;
-    feeds?:Feeds[];
+    // feeds?:Feeds[];
     payments?:Payments [];
+
 }
 export interface Payments {
   payment_id: number;
